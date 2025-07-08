@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,6 +39,7 @@ fun TaskScreen(
             label = { Text("Descrição") },
             modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
@@ -48,13 +50,14 @@ fun TaskScreen(
                     description = ""
                 } // limpa os campos depois de adicionar
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text("Adicionar Tarefa")
         }
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn {
+        LazyColumn(modifier = Modifier.weight(1f)) {
             items(tasks) { task ->
                 TaskCard(
                     task = task,
@@ -65,6 +68,18 @@ fun TaskScreen(
                     }
                 )
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = { // força o crash e manda para o firebase
+                throw RuntimeException("Testando Crashlytics")
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("Forçar Crash")
         }
     }
     if (showDialog) {
